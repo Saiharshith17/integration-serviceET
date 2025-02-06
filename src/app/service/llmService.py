@@ -1,33 +1,40 @@
 from typing import Optional
-from dotenv import load_dotenv,dotenv_values
-from langchain_core.prompts import ChatPromptTemplate,MessagePlaceholder
-from langchain_core.pydantic_v1 import BaseModel, Field
+from dotenv import load_dotenv
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 from langchain_mistralai import ChatMistralAI
 from langchain_core.utils.function_calling import convert_to_openai_tool
 import os
 
+# Ensure the correct import path for Expense
+from app.service.Expense import Expense
+
 
 class LLMService:
     def __init__(self):
         load_dotenv()
-        self.prompt= ChatPromptTemplate.from_messages(
+        self.prompt = ChatPromptTemplate.from_messages(
             [
                 (
                     "system",
                     "You are an expert extraction algorithm. "
                     "Only extract relevant information from the text. "
-                    "If you do not know the value of an attribute askrd to extract, "
-                    "return null for the attribut's value. "
-                
+                    "If you do not know the value of an attribute asked to extract, "
+                    "return null for the attribute's value. "
                 ),
-                ("human","{text}")
+                ("human", "{text}")
             ]
         )
-        self.apiKey=os.getenv('OPENAI_API_KEY')
-        self.llm=ChatMistralAI(api_key=self.apiKey,model="mistral-large-latest")
-        self.runnable=self.prompt | self.llm.with_structered_output(schema=Expense)
+        
+        self.apiKey = os.getenv('OPENAI_API_KEY')
+        if not self.apiKey:
+            raise ValueError("Missing API Key! Set OPENAI_API_KEY in .env file.")
 
-    def runLLM(self,message):
+        self.llm = ChatMistralAI(api_key=self.apiKey, model="mistral-large-latest")
+
+        # Fix spelling of 'with_structered_output' to 'with_structured_output'
+        self.runnable = self.prompt | self.llm.with_structured_output(schema=Expense)
+
+    def runLLM(self, message):
         return self.runnable.invoke({"text": message})
-
