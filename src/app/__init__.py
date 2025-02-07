@@ -9,16 +9,19 @@ app.config.from_pyfile('config.py')
 
 messageService=MessageService()
 
-@app.route('v1/ds/message/', methods=['POST'])
+@app.route('/v1/ds/message/', methods=['POST'])
 def handle_message():
     message=request.json.get('message')
     result=messageService.process_message(message)
-    return result
+    if result is None:
+        return jsonify({"error": "Message not recognized"}), 400
 
-@app.rout('/',methods=['GET'])
+    return jsonify(result) 
+
+@app.route('/',methods=['GET'])
 def handle_get():
-    print("Hello world")
+    return 'hello world'
 
 
 if __name__=="__main__":
-    app.run(host="localhost",port=8000,debug=True)
+    app.run(host="localhost",port=5000,debug=True)
