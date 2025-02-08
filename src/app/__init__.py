@@ -5,7 +5,7 @@ from confluent_kafka import Producer, Consumer
 
 import json
 import os
-import jsonpickle
+
 
 app=Flask(__name__)
 app.config.from_pyfile('config.py')
