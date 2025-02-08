@@ -1,6 +1,7 @@
 from typing import Optional
 from dotenv import load_dotenv
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.prompts import MessagesPlaceholder
+from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 from langchain_mistralai import ChatMistralAI
@@ -10,7 +11,7 @@ import os
 # Ensure the correct import path for Expense
 from service.Expense import Expense
 
-
+ChatPromptTemplate
 class LLMService:
     def __init__(self):
         load_dotenv()
