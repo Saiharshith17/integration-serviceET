@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import request,jsonify
 from service.messageService import MessageService
-from confluent_kafka import Producer, Consumer
+from kafka import KafkaProducer
 
 import json
 import os
@@ -12,7 +12,7 @@ app.config.from_pyfile('config.py')
 
 
 messageService=MessageService()
-producer= Producer(bootstrap_servers=['localhost:9092'],
+producer= KafkaProducer(bootstrap_servers=['localhost:9092'],
                         value_serializer=lambda v:json.dumps(v).encode('utf-8'))
 kafka_host = os.getenv('KAFKA_HOST', 'localhost')
 kafka_port = os.getenv('KAFKA_PORT', '9092')
