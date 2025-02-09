@@ -9,7 +9,7 @@ from langchain_core.utils.function_calling import convert_to_openai_tool
 import os
 
 # Ensure the correct import path for Expense
-from service.Expense import Expense
+from app.service.Expense import Expense
 
 ChatPromptTemplate
 class LLMService:

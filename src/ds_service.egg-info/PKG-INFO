@@ -1,0 +1,7 @@
+Metadata-Version: 2.2
+Name: ds_service
+Version: 1.0
+Requires-Dist: flask
+Requires-Dist: python-dotenv
+Requires-Dist: confluent-kafka
+Dynamic: requires-dist

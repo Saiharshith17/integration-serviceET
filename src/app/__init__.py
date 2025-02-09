@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from service.messageService import MessageService
+from .service.messageService import MessageService
 from confluent_kafka import Producer, Consumer
 import json
 import os
@@ -42,4 +42,4 @@ def handle_check():
     return 'OK'
 
 if __name__ == "__main__":
-    app.run(host="localhost", port=8000, debug=True)
+    app.run(host="localhost", port=8010, debug=True)
